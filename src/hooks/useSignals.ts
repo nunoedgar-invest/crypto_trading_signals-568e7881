@@ -7,7 +7,7 @@ export function useSignals(priceHistory: PriceData[]) {
   const [forecast, setForecast] = useState<ForecastSignal[]>([]);
 
   useEffect(() => {
-    if (!priceHistory?.length || priceHistory.length < 26) return;
+    if (!priceHistory || priceHistory.length < 26) return;
 
     const prices = priceHistory.map(p => p.price);
     const rsi = calculateRSI(prices);
@@ -83,9 +83,9 @@ export function useSignals(priceHistory: PriceData[]) {
         strength: forecastStrength,
         date: forecastDate,
         timestamp: forecastDate.getTime(),
-        price: latestPrice * (1 + (Math.random() * 0.1 - 0.05) * i), // Simulated price with increasing uncertainty
+        price: latestPrice * (1 + (Math.random() * 0.1 - 0.05) * i),
         reason: `Forecast based on current ${forecastType.toLowerCase()} trend and market conditions`,
-        confidence: confidence
+        confidence
       });
     }
 
