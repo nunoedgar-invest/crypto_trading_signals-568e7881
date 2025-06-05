@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Signal, PriceData } from '../types';
+import { Signal, PriceData, ForecastSignal } from '../types';
 import { calculateRSI, calculateMACD } from '../utils/technicalIndicators';
 
 export function useSignals(priceHistory: PriceData[]) {
   const [currentSignal, setCurrentSignal] = useState<Signal | null>(null);
+  const [forecast, setForecast] = useState<ForecastSignal[]>([]);
 
   useEffect(() => {
-    if (priceHistory.length < 26) return; // Need minimum data for MACD
+    if (!priceHistory?.length || priceHistory.length < 26) return;
 
     const prices = priceHistory.map(p => p.price);
     const rsi = calculateRSI(prices);
@@ -19,7 +20,7 @@ export function useSignals(priceHistory: PriceData[]) {
     let strength: Signal['strength'] = 'MODERATE';
     let reason = '';
 
-    // Analyze technical indicators
+    // Current signal analysis
     if (rsi < 30 && histogram > 0) {
       signalType = 'BUY';
       reason = 'Oversold conditions with positive MACD momentum';
@@ -38,16 +39,54 @@ export function useSignals(priceHistory: PriceData[]) {
       strength = 'MODERATE';
     }
 
-    // Volume analysis
-    if (volume24h > 30000000000) { // High volume threshold
+    if (volume24h > 30000000000) {
       strength = 'STRONG';
       reason += ' with high trading volume';
     }
 
-    // Price momentum
     if (Math.abs(change24h) > 5) {
       strength = 'STRONG';
       reason += ` and significant price movement (${change24h.toFixed(2)}%)`;
+    }
+
+    // Generate 5-day forecast
+    const forecastSignals: ForecastSignal[] = [];
+    const today = new Date();
+    
+    for (let i = 1; i <= 5; i++) {
+      const forecastDate = new Date(today);
+      forecastDate.setDate(today.getDate() + i);
+      
+      // Use technical indicators to predict future signals
+      const trendStrength = Math.abs(histogram) / Math.max(...prices) * 100;
+      const momentum = change24h > 0 ? 1 : -1;
+      const volatility = Math.abs(change24h) / 100;
+      
+      let forecastType: Signal['type'];
+      let forecastStrength: Signal['strength'];
+      let confidence = Math.min(Math.abs(rsi - 50) / 50 + trendStrength / 100, 1);
+      
+      if (rsi < 40 && momentum > 0) {
+        forecastType = 'BUY';
+        forecastStrength = confidence > 0.7 ? 'STRONG' : confidence > 0.4 ? 'MODERATE' : 'WEAK';
+      } else if (rsi > 60 && momentum < 0) {
+        forecastType = 'SELL';
+        forecastStrength = confidence > 0.7 ? 'STRONG' : confidence > 0.4 ? 'MODERATE' : 'WEAK';
+      } else {
+        forecastType = 'HOLD';
+        forecastStrength = 'MODERATE';
+        confidence = Math.max(0.3, 1 - volatility);
+      }
+
+      forecastSignals.push({
+        type: forecastType,
+        strength: forecastStrength,
+        date: forecastDate,
+        timestamp: forecastDate.getTime(),
+        price: latestPrice * (1 + (Math.random() * 0.1 - 0.05) * i), // Simulated price with increasing uncertainty
+        reason: `Forecast based on current ${forecastType.toLowerCase()} trend and market conditions`,
+        confidence: confidence
+      });
     }
 
     setCurrentSignal({
@@ -57,7 +96,9 @@ export function useSignals(priceHistory: PriceData[]) {
       price: latestPrice,
       reason
     });
+
+    setForecast(forecastSignals);
   }, [priceHistory]);
 
-  return currentSignal;
+  return { currentSignal, forecast };
 }

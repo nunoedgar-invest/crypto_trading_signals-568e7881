@@ -12,3 +12,8 @@ export interface Signal {
   price: number;
   reason: string;
 }
+
+export interface ForecastSignal extends Signal {
+  date: Date;
+  confidence: number;
+}
