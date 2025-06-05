@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { PriceData } from '../types';
 import { getBitcoinPrice } from '../services/api';
 
+const MAX_HISTORY_LENGTH = 100; // Limit history to prevent unbounded growth
+
 export function useBitcoinPrice(refreshInterval = 30000) {
-  const [priceData, setPriceData] = useState<PriceData | null>(null);
+  const [priceHistory, setPriceHistory] = useState<PriceData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -12,9 +14,13 @@ export function useBitcoinPrice(refreshInterval = 30000) {
 
     async function fetchPrice() {
       try {
-        const data = await getBitcoinPrice();
+        const newPriceData = await getBitcoinPrice();
         if (mounted) {
-          setPriceData(data);
+          setPriceHistory(prevHistory => {
+            const updatedHistory = [...prevHistory, newPriceData];
+            // Keep only the last MAX_HISTORY_LENGTH items
+            return updatedHistory.slice(-MAX_HISTORY_LENGTH);
+          });
           setError(null);
         }
       } catch (err) {
@@ -39,5 +45,5 @@ export function useBitcoinPrice(refreshInterval = 30000) {
     };
   }, [refreshInterval]);
 
-  return { priceData, error, loading };
+  return { priceHistory, error, loading };
 }
