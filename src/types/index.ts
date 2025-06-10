@@ -12,3 +12,18 @@ export interface Signal {
   price: number;
   reason: string;
 }
+
+export interface ForecastSignal extends Signal {
+  date: Date;
+  confidence: number;
+}
+
+export type CryptoCurrency = 'bitcoin' | 'ethereum';
+
+export interface CryptoInfo {
+  id: CryptoCurrency;
+  name: string;
+  symbol: string;
+  icon: string;
+  color: string;
+}

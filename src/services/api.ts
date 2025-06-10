@@ -1,4 +1,4 @@
-import { PriceData } from '../types';
+import { PriceData, CryptoCurrency } from '../types';
 
 const COINGECKO_API = 'https://api.coingecko.com/api/v3';
 const CRYPTO_NEWS_API = 'https://cryptonews-api.com/api/v1';
@@ -15,6 +15,30 @@ export async function getBitcoinPrice(): Promise<PriceData> {
     timestamp: Date.now(),
     change24h: data.bitcoin.usd_24h_change,
     volume24h: data.bitcoin.usd_24h_vol
+  };
+}
+
+export async function getCryptoPrice(cryptoId: CryptoCurrency): Promise<PriceData> {
+  const response = await fetch(
+    `${COINGECKO_API}/simple/price?ids=${cryptoId}&vs_currencies=usd&include_24hr_vol=true&include_24hr_change=true`
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${cryptoId} price`);
+  }
+  
+  const data = await response.json();
+  const cryptoData = data[cryptoId];
+  
+  if (!cryptoData) {
+    throw new Error(`No data found for ${cryptoId}`);
+  }
+  
+  return {
+    price: cryptoData.usd,
+    timestamp: Date.now(),
+    change24h: cryptoData.usd_24h_change || 0,
+    volume24h: cryptoData.usd_24h_vol || 0
   };
 }
 
