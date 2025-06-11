@@ -18,7 +18,7 @@ export interface ForecastSignal extends Signal {
   confidence: number;
 }
 
-export type CryptoCurrency = 'bitcoin' | 'ethereum';
+export type CryptoCurrency = 'bitcoin' | 'ethereum' | 'solana';
 
 export interface CryptoInfo {
   id: CryptoCurrency;

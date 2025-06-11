@@ -1,6 +1,6 @@
 import React from 'react';
 import { CryptoCurrency, CryptoInfo } from '../types';
-import { Bitcoin, Zap } from 'lucide-react';
+import { Bitcoin, Zap, Coins } from 'lucide-react';
 
 interface CryptoSelectorProps {
   selectedCrypto: CryptoCurrency;
@@ -21,6 +21,13 @@ const cryptoOptions: CryptoInfo[] = [
     symbol: 'ETH',
     icon: 'ethereum',
     color: 'from-blue-500 to-purple-600'
+  },
+  {
+    id: 'solana',
+    name: 'Solana',
+    symbol: 'SOL',
+    icon: 'solana',
+    color: 'from-purple-500 to-pink-600'
   }
 ];
 
@@ -31,6 +38,8 @@ export function CryptoSelector({ selectedCrypto, onCryptoChange }: CryptoSelecto
         return <Bitcoin className={className} />;
       case 'ethereum':
         return <Zap className={className} />;
+      case 'solana':
+        return <Coins className={className} />;
       default:
         return <Bitcoin className={className} />;
     }
@@ -42,7 +51,7 @@ export function CryptoSelector({ selectedCrypto, onCryptoChange }: CryptoSelecto
         Select Cryptocurrency
       </h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {cryptoOptions.map((crypto) => {
           const isSelected = selectedCrypto === crypto.id;
           

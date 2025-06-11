@@ -29,7 +29,8 @@ export function useCryptoPrices(cryptoId: CryptoCurrency, refreshInterval = 3000
         }
       } catch (err) {
         if (mounted) {
-          setError(`Failed to fetch ${cryptoId} price`);
+          const errorMessage = err instanceof Error ? err.message : `Failed to fetch ${cryptoId} price`;
+          setError(errorMessage);
           console.error(`Error fetching ${cryptoId} price:`, err);
         }
       } finally {

@@ -3,6 +3,7 @@ import { CryptoSelector } from './components/CryptoSelector';
 import { PriceDisplay } from './components/PriceDisplay';
 import { SignalIndicator } from './components/SignalIndicator';
 import { ForecastDisplay } from './components/ForecastDisplay';
+import { ValueProposition } from './components/ValueProposition';
 import { useCryptoPrices } from './hooks/useCryptoPrices';
 import { useCryptoSignals } from './hooks/useCryptoSignals';
 import { CryptoCurrency } from './types';
@@ -16,7 +17,8 @@ function App() {
   const currentPrice = priceHistory.length > 0 ? priceHistory[priceHistory.length - 1] : null;
   const cryptoInfo = {
     bitcoin: { name: 'Bitcoin', symbol: 'BTC' },
-    ethereum: { name: 'Ethereum', symbol: 'ETH' }
+    ethereum: { name: 'Ethereum', symbol: 'ETH' },
+    solana: { name: 'Solana', symbol: 'SOL' }
   };
 
   return (
@@ -67,6 +69,9 @@ function App() {
           forecast={forecast} 
           cryptoSymbol={cryptoInfo[selectedCrypto].symbol}
         />
+
+        {/* Value Proposition Section */}
+        <ValueProposition />
 
         {/* Footer */}
         <div className="mt-12 text-center">

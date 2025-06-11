@@ -23,16 +23,35 @@ export function useCryptoSignals(priceHistory: PriceData[], cryptoId: CryptoCurr
 
     // Crypto-specific thresholds
     const isEthereum = cryptoId === 'ethereum';
-    const volatilityMultiplier = isEthereum ? 1.2 : 1.0; // ETH is typically more volatile
-    const volumeThreshold = isEthereum ? 10000000000 : 20000000000; // Different volume scales
+    const isSolana = cryptoId === 'solana';
+    
+    // Different volatility multipliers for each crypto
+    let volatilityMultiplier = 1.0;
+    let volumeThreshold = 20000000000;
+    
+    if (isEthereum) {
+      volatilityMultiplier = 1.2;
+      volumeThreshold = 10000000000;
+    } else if (isSolana) {
+      volatilityMultiplier = 1.5; // SOL is typically more volatile
+      volumeThreshold = 1000000000; // Lower volume threshold for SOL
+    }
 
     if (prices.length >= 26) {
       const rsi = calculateRSI(prices);
       const { macd, signal, histogram } = calculateMACD(prices);
 
       // Enhanced RSI thresholds for different cryptos
-      const oversoldThreshold = isEthereum ? 25 : 30;
-      const overboughtThreshold = isEthereum ? 75 : 70;
+      let oversoldThreshold = 30;
+      let overboughtThreshold = 70;
+      
+      if (isEthereum) {
+        oversoldThreshold = 25;
+        overboughtThreshold = 75;
+      } else if (isSolana) {
+        oversoldThreshold = 20; // More aggressive thresholds for SOL
+        overboughtThreshold = 80;
+      }
 
       if (rsi < oversoldThreshold && histogram > 0) {
         signalType = 'BUY';
