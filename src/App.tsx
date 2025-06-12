@@ -4,6 +4,7 @@ import { PriceDisplay } from './components/PriceDisplay';
 import { SignalIndicator } from './components/SignalIndicator';
 import { ForecastDisplay } from './components/ForecastDisplay';
 import { ValueProposition } from './components/ValueProposition';
+import { PricingSection } from './components/PricingSection';
 import { useCryptoPrices } from './hooks/useCryptoPrices';
 import { useCryptoSignals } from './hooks/useCryptoSignals';
 import { CryptoCurrency } from './types';
@@ -72,6 +73,9 @@ function App() {
 
         {/* Value Proposition Section */}
         <ValueProposition />
+
+        {/* Pricing Section */}
+        <PricingSection />
 
         {/* Footer */}
         <div className="mt-12 text-center">
