@@ -22,7 +22,7 @@ const pricingPlans: PricingPlan[] = [
     name: 'Basic Signals',
     price: 29,
     interval: 'month',
-    stripePriceId: prod_SU93iC2yIOkSWK, // Replace with your actual Stripe Price ID
+    stripePriceId: 'prod_SU93iC2yIOkSWK', // Replace with your actual Stripe Price ID
     icon: <TrendingUp className="w-6 h-6" />,
     gradient: 'from-blue-500 to-cyan-500',
     features: [
@@ -38,7 +38,7 @@ const pricingPlans: PricingPlan[] = [
     name: 'Pro Trader',
     price: 79,
     interval: 'month',
-    stripePriceId: prod_SU95EWQ37znLQA, // Replace with your actual Stripe Price ID
+    stripePriceId: 'prod_SU95EWQ37znLQA', // Replace with your actual Stripe Price ID
     popular: true,
     icon: <Zap className="w-6 h-6" />,
     gradient: 'from-purple-500 to-pink-500',
@@ -57,7 +57,7 @@ const pricingPlans: PricingPlan[] = [
     name: 'Enterprise',
     price: 199,
     interval: 'month',
-    stripePriceId: prod_SU93iC2yIOkSWK, // Replace with your actual Stripe Price ID
+    stripePriceId: 'prod_SU93iC2yIOkSWK', // Replace with your actual Stripe Price ID
     icon: <Crown className="w-6 h-6" />,
     gradient: 'from-orange-500 to-red-500',
     features: [
