@@ -1,6 +1,8 @@
-# Crypto Trading Signals                                                                                        [![Tip in Crypto](https://tip.md/badge.svg)](https://tip.md/nunoedgar-invest)
+# Crypto Trading Signals                                                                                       
 
 A real-time cryptocurrency trading signals application that provides technical and fundamental analysis for Bitcoin and Ethereum trading decisions.
+
+ [![Tip in Crypto](https://tip.md/badge.svg)](https://tip.md/nunoedgar-invest)
 
 ## Features
 
@@ -67,6 +69,8 @@ The application provides intelligent trading signals based on multiple factors:
 - **Volume Analysis**: Trading volume patterns and anomaly detection
 - **Price Momentum**: Short-term and long-term trend analysis
 - **Crypto-Specific Analysis**: Tailored algorithms for Bitcoin and Ethereum characteristics
+
+   [![Tip in Crypto](https://tip.md/badge.svg)](https://tip.md/nunoedgar-invest)
 
 ### Signal Categories
 
