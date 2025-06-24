@@ -1,4 +1,4 @@
-# Crypto Trading Signals
+# Crypto Trading Signals                                                                                        [![Tip in Crypto](https://tip.md/badge.svg)](https://tip.md/nunoedgar-invest)
 
 A real-time cryptocurrency trading signals application that provides technical and fundamental analysis for Bitcoin and Ethereum trading decisions.
 
